@@ -1,8 +1,9 @@
 import React from 'react'
 import { Container, Typography, Button, Grid } from '@material-ui/core';
+import classes from '*.module.css';
 
-const Cart = () => {
-    const isEmpty = true;
+const Cart = ({ cart }) => {
+    const isEmpty = !cart.line_items.length;
 
     const EmptyCart = () => (
         <Typography variant="subtitle1">You have no items in your shopping cart, start adding some!</Typography>
@@ -10,7 +11,21 @@ const Cart = () => {
 
     const FilledCart = () => {
         <>
-            <Grid container spacing={3}></Grid>
+            <Grid container spacing={3}>
+                {cart.line_items.map((item) => (
+                    <Grid item xs={12} sm={4} key={item.id}>
+                        <div>{item.name}</div>
+                    </Grid>
+                ))}
+            </Grid>
+            <div className={classes.cardDetails}>
+                <Typography variant="h4">
+                    Subtotal: { cart.subtotal.formatted_with_symbol}
+                    <div>
+                        <Button className={classes.emptyButton} size="large" type="button" variant="contained" color="secondary">Empty Cart</Button>
+                    </div>
+                </Typography>
+            </div>
         </>
     }
 
