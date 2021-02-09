@@ -58,7 +58,12 @@ const App = () => {
                 </Route>
 
                 <Route exact path="/cart">
-                    <Cart cart={cart}/>
+                    <Cart 
+                    cart={cart}
+                    handleUpdateCartQty={handleUpdateCartQty}
+                    handleRemoveFromCart={handleRemoveFromCart}
+                    handleEmptyCart={handleEmptyCart}
+                    />
                 </Route>
             </Switch>            
         </div>   
