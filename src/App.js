@@ -65,10 +65,10 @@ const App = () => {
                     handleEmptyCart={handleEmptyCart}
                     />
                 </Route>
-                <Route exact="/checkout">
+                <Route exact path="/checkout">
                     <Checkout />
                 </Route>
-            </Switch>            
+            </Switch>
         </div>   
         </Router>
     );
