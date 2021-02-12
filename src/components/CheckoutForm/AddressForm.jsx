@@ -17,8 +17,8 @@ const AddressForm = ({ checkoutToken }) => {
 
     const countries = Object.entries(shippingCountries).map(([code, name]) => ({ id: code, label: name}));
     const subdivisions = Object.entries(shippingSubdivisions).map(([code, name]) => ({ id: code, label: name}));
-
-    console.log("Formatted Countries: " + countries);
+    const options = shippingOptions.map((sO) => ({ id: sO.id, label: `${sO.description} - (${sO.price.formatted_width_symbol })`}) );
+    console.log(shippingOptions);
 
     const fetchShippingCountries = async(checkoutTokenId) => {
         const { countries } = await commerce.services.localeListShippingCountries(checkoutTokenId);
@@ -50,6 +50,10 @@ const AddressForm = ({ checkoutToken }) => {
         if(shippingCountry) fetchSubdivisions(shippingCountry);
     }, [shippingCountry]);
 
+    useEffect(() => {
+        if(shippingSubdivision) fetchShippingOptions(checkoutToken.id, shippingCountry, shippingSubdivision);
+    }, [shippingSubdivision])
+
     return (
         <>
             <Typography variant="h6" gutterBottom>Shipping Address</Typography>
@@ -80,14 +84,14 @@ const AddressForm = ({ checkoutToken }) => {
                                 ))}
                             </Select>
                         </Grid>
-                        {/* <<Grid item xs={12} sm={6}>
+                        <Grid item xs={12} sm={6}>
                             <InputLabel>Shipping Options</InputLabel>
-                            <Select value={} fullWidth onChange={}>
-                                <MenuItem key={} value={}>
-                                    Select Me
-                                </MenuItem>
+                            <Select value={shippingOption} fullWidth onChange={(e) => setShippingOption(e.target.value)}>
+                                {options.map((option) => (
+                                    <MenuItem key={option.id} value={option.id}> { option.label } </MenuItem>
+                                ))}
                             </Select>
-                        </Grid> */}
+                        </Grid>
                     </Grid>
                 </form>
             </FormProvider>
