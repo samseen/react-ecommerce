@@ -27,6 +27,13 @@ const AddressForm = ({ checkoutToken }) => {
         setShippingCountry(Object.keys(countries)[0]);
     }
 
+    const fetchSubdivisions = async (countryCode) => {
+        const { subdivisions } = await commerce.services.localeListSubdivisions(countryCode);
+
+        setShippingSubdivisions(subdivisions);
+        setShippingSubdivision(subdivisiObject.keys(subdivisions)[0]);
+    }
+
     useEffect(() => {
         fetchShippingCountries(checkoutToken.id)
     }, []);
