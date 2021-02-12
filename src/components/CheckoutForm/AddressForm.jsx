@@ -16,6 +16,7 @@ const AddressForm = ({ checkoutToken }) => {
     const methods = useForm();
 
     const countries = Object.entries(shippingCountries).map(([code, name]) => ({ id: code, label: name}));
+    const subdivisions = Object.entries(shippingSubdivisions).map(([code, name]) => ({ id: code, label: name}));
 
     console.log("Formatted Countries: " + countries);
 
@@ -31,7 +32,7 @@ const AddressForm = ({ checkoutToken }) => {
         const { subdivisions } = await commerce.services.localeListSubdivisions(countryCode);
 
         setShippingSubdivisions(subdivisions);
-        setShippingSubdivision(subdivisiObject.keys(subdivisions)[0]);
+        setShippingSubdivision(Object.keys(subdivisions)[0]);
     }
 
     useEffect(() => {
@@ -64,15 +65,15 @@ const AddressForm = ({ checkoutToken }) => {
                                 ))}
                             </Select>
                         </Grid>
-                        {/* <Grid item xs={12} sm={6}>
+                        <Grid item xs={12} sm={6}>
                             <InputLabel>Shipping Subdivision</InputLabel>
-                            <Select value={} fullWidth onChange={}>
-                                <MenuItem key={} value={}>
-                                    Select Me
-                                </MenuItem>
+                            <Select value={shippingSubdivision} fullWidth onChange={(e) => setShippingSubdivision(e.target.value)}>
+                                {subdivisions.map((subdivision) => (
+                                    <MenuItem key={subdivision.id} value={subdivision.id}> { subdivision.label } </MenuItem>
+                                ))}
                             </Select>
                         </Grid>
-                        <Grid item xs={12} sm={6}>
+                        {/* <<Grid item xs={12} sm={6}>
                             <InputLabel>Shipping Options</InputLabel>
                             <Select value={} fullWidth onChange={}>
                                 <MenuItem key={} value={}>
