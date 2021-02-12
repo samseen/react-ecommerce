@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { InputLabel, Select, MenuItem, Button, Grid, Typography } from '@material-ui/core';
 import { useForm, FormProvider } from 'react-hook-form';
+import { Link } from 'react-router-dom';
 
 import { commerce } from '../../lib/commerce';
 
@@ -17,8 +18,7 @@ const AddressForm = ({ checkoutToken }) => {
 
     const countries = Object.entries(shippingCountries).map(([code, name]) => ({ id: code, label: name}));
     const subdivisions = Object.entries(shippingSubdivisions).map(([code, name]) => ({ id: code, label: name}));
-    const options = shippingOptions.map((sO) => ({ id: sO.id, label: `${sO.description} - (${sO.price.formatted_width_symbol })`}) );
-    console.log(shippingOptions);
+    const options = shippingOptions.map((sO) => ({ id: sO.id, label: `${sO.description} - (${sO.price.formatted_with_symbol })`}) );
 
     const fetchShippingCountries = async(checkoutTokenId) => {
         const { countries } = await commerce.services.localeListShippingCountries(checkoutTokenId);
@@ -38,6 +38,8 @@ const AddressForm = ({ checkoutToken }) => {
     const fetchShippingOptions = async(checkoutTokenId, country, region = null) => {
         const options = await commerce.checkout.getShippingOptions(checkoutTokenId, { country, region });
 
+        console.log("Shipping Options");
+        console.log(options);
         setShippingOptions(options);
         setShippingOption(options[0].id);
     }
@@ -60,12 +62,12 @@ const AddressForm = ({ checkoutToken }) => {
             <FormProvider {...methods}>
                 <form onSubmit=''>
                     <Grid container spacing={3}>
-                        <FormInput required name="firstName" label="First Name" />
-                        <FormInput required name="lastName" label="Last Name" />
-                        <FormInput required name="address" label="Address" />
-                        <FormInput required name="email" label="Email" />
-                        <FormInput required name="city" label="City" />
-                        <FormInput required name="zip" label="ZIP / Postal Code" />
+                        <FormInput name="firstName" label="First Name" />
+                        <FormInput name="lastName" label="Last Name" />
+                        <FormInput name="address" label="Address" />
+                        <FormInput name="email" label="Email" />
+                        <FormInput name="city" label="City" />
+                        <FormInput name="zip" label="ZIP / Postal Code" />
                         <Grid item xs={12} sm={6}>
                             <InputLabel>Shipping Country</InputLabel>
                             <Select value={shippingCountry} fullWidth onChange={(e) => setShippingCountry(e.target.value)}>
@@ -93,10 +95,15 @@ const AddressForm = ({ checkoutToken }) => {
                             </Select>
                         </Grid>
                     </Grid>
+                    <br />
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <Button component={Link} to="/cart" variant="outlined">Back to Cart</Button>
+                        <Button type="submit" variant="contained" color="primary">Next</Button>
+                    </div>
                 </form>
             </FormProvider>
         </>
     )
 }
 
-export default AddressForm
+export default AddressForm;
