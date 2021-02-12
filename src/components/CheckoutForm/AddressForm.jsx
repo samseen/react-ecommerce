@@ -38,6 +38,10 @@ const AddressForm = ({ checkoutToken }) => {
         fetchShippingCountries(checkoutToken.id)
     }, []);
 
+    useEffect(() => {
+        if(shippingCountry) fetchSubdivisions(shippingCountry);
+    }, [shippingCountry]);
+
     return (
         <>
             <Typography variant="h6" gutterBottom>Shipping Address</Typography>
