@@ -67,6 +67,8 @@ const App = () => {
 
     console.log(cart);
 
+    //App says status is undefined
+
     return (
         <Router>
         <div>
