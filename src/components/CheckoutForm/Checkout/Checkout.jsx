@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Paper, Stepper, Step, StepLabel, Typography, CircularProgress, Divider, Button } from '@material-ui/core';
-
+import { Link } from 'react-router-dom';
 import useStyles from './styles';
 
 import { commerce } from '../../../lib/commerce';
@@ -22,7 +22,7 @@ const Checkout = ({ cart, order, onCaptureCheckout, error }) => {
 
                 setCheckoutToken(token);
             } catch(error) {
-
+                console.log(error);
             }
         }
 
