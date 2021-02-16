@@ -13,7 +13,9 @@ const Checkout = ({ cart, order, onCaptureCheckout, error }) => {
     const [activeStep, setActiveStep] = useState(0);
     const [checkoutToken, setCheckoutToken] = useState(null);
     const [shippingData, setShippingData] = useState({});
+    const [isFinished, setIsFinished] = useState(false);
     const classes = useStyles();
+    const history = useHistory();
 
     useEffect(() => {
         const generateToken = async() => {
@@ -36,6 +38,12 @@ const Checkout = ({ cart, order, onCaptureCheckout, error }) => {
         setShippingData(data);
 
         nextStep();
+    }
+
+    const timeout = () => {
+        setTimeout(() => {
+            setIsFinished(true)
+        }, 3000);
     }
 
     let Confirmation = () => order.customer ? (
