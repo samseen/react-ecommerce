@@ -24,7 +24,8 @@ const Checkout = ({ cart, order, onCaptureCheckout, error }) => {
 
                 setCheckoutToken(token);
             } catch(error) {
-                history.pushState('/');
+                // history.pushState('/');
+                console.log(error);
             }
         }
 
@@ -50,7 +51,7 @@ const Checkout = ({ cart, order, onCaptureCheckout, error }) => {
         <div>
             <>
                 <div>
-                    <Typography variant="h5">Thank you for your purchase, {order.customer.firstname}, {order.customer.lastname}</Typography>
+                    <Typography variant="h5">Thank you for your purchase, {order.customer.firstname} {order.customer.lastname}</Typography>
                     <Divider className={classes.divider} />
                     <Typography variant="subtitle2">Order ref: {order.customer_reference}</Typography>
                 </div>
@@ -58,6 +59,15 @@ const Checkout = ({ cart, order, onCaptureCheckout, error }) => {
                 <Button component={Link} to="/" variant="outlined" type="button">Back to Home</Button>
             </>
         </div>
+    ) : isFinished ? (
+        <>
+            <div>
+                <Typography variant="h5">Thank you for your purchase</Typography>
+                <Divider className={classes.divider} />
+            </div>
+            <br />
+            <Button component={Link} to="/" variant="outlined" type="button">Back to Home</Button>
+        </>
     ) : (
         <div className={classes.spinner}>
             <CircularProgress />
